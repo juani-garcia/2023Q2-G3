@@ -18,3 +18,9 @@ module "my_route_table" {
   subnet_ids = module.my_vpc.vpc_info.subnet_ids
   gateway_id = module.my_igw.internet_gateway_id
 }
+
+module "lambda_function" {
+  source       = "./modules/lambda"
+  sources      = ["src/resources/lambda-test"]
+  lambda_names = ["hello-world-test"]
+}
