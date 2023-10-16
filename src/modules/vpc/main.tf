@@ -17,7 +17,7 @@ resource "aws_subnet" "public_subnet" {
   map_public_ip_on_launch = false
 
   tags = {
-    Name = "Public Subnet "
+    Name = var.subnet_names[count.index]
   }
 }
 
