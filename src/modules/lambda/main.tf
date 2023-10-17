@@ -52,14 +52,18 @@ data "archive_file" "lambda_function" {
 }
 
 resource "aws_lambda_function" "lambda_function" {
-  count            = length(var.lambda_names)
-  filename         = "../${var.sources[count.index]}/lambda_function_${count.index}.zip"
-  function_name    = var.lambda_names[count.index]
-  role             = "arn:aws:iam::633166094506:role/LabRole"
-  handler          = "../${var.sources[count.index]}.lambda_handler}"
+  count         = length(var.lambda_names)
+  filename      = "../${var.sources[count.index]}/lambda_function_${count.index}.zip"
+  function_name = var.lambda_names[count.index]
+  role          = "arn:aws:iam::633166094506:role/LabRole"
+  handler       = "../${var.sources[count.index]}.lambda_handler}"
   # source_code_hash = data.archive_file.lambda_function.output_base64sha256
-  runtime          = "python3.9"
+  runtime = "python3.9"
   # depends_on       = [aws_iam_role_policy_attachment.lambda_role_policy_attachment]
-  timeout          = "60"
-  memory_size      = "128"
+  timeout     = "60"
+  memory_size = "128"
+  vpc_config {
+    subnet_ids         = [var.subnets]
+    security_group_ids = var.sgs # TODO: Add security group module
+  }
 }

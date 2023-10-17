@@ -1,19 +1,25 @@
-variable "vpc_name" {
-  description = "Name of the VPC"
-  type        = string
-}
-
 variable "vpc_cidr" {
   description = "CIDR block for the VPC"
   type        = string
 }
 
-variable "public_subnet_names" {
-  type        = list(string)
-  description = "List of subnet names"
+variable "vpc_id" {
+  description = "ID of the VPC"
+  type        = string
 }
 
-variable "private_subnet_names" {
+variable "starting_cidr" {
+  description = "Offset for starting subnet cidr block"
+  type        = number
+}
+
+variable "map_public_ip_on_launch" {
+  description = "Map public IP on launch"
+  type        = bool
+  default     = false
+}
+
+variable "subnet_names" {
   type        = list(string)
   description = "List of subnet names"
 }

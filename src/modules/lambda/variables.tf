@@ -22,3 +22,12 @@ variable "lambda_names" {
   default     = ["lambda-function"]
 }
 
+variable "subnets" {
+  description = "ID of the subnet where the Lambda function will be deployed"
+  type        = string
+}
+
+variable "sgs" {
+  description = "IDs of the security groups where the Lambda function will be deployed"
+  type        = list(string)
+}

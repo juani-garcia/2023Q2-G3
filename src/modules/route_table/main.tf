@@ -12,4 +12,5 @@ resource "aws_route" "my_route" {
   route_table_id         = aws_route_table.my_route_table.id
   destination_cidr_block = "0.0.0.0/0"
   gateway_id             = var.gateway_id
+  nat_gateway_id         = var.public ? var.nat_gateway_id : null
 }
