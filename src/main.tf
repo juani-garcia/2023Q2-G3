@@ -19,6 +19,18 @@ module "my_route_table" {
   gateway_id = module.my_igw.internet_gateway_id
 }
 
+# module "lambda_function_existing_package_local" {
+#   source = "terraform-aws-modules/lambda/aws"
+
+#   function_name = "my-lambda-existing-package-local-test"
+#   description   = "Test lambda function"
+#   handler       = "hello_world.lambda_handler"
+#   runtime       = "python3.9"
+
+#   create_package         = false
+#   local_existing_package = "./resources/lambda-test/hello_world.zip"
+# }
+
 module "lambda_function" {
   source       = "./modules/lambda"
   sources      = ["src/resources/lambda-test"]
