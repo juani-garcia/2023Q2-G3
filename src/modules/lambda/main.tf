@@ -63,7 +63,7 @@ resource "aws_lambda_function" "lambda_function" {
   timeout     = "60"
   memory_size = "128"
   vpc_config {
-    subnet_ids         = [var.subnets]
+    subnet_ids         = var.subnets
     security_group_ids = var.sgs # TODO: Add security group module
   }
 }

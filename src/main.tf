@@ -44,6 +44,6 @@ module "lambda_function" {
   source       = "./modules/lambda"
   sources      = ["src/resources/lambda-test"]
   lambda_names = ["hello-world-test"]
-  subnets      = module.my_vpc.vpc_info.private_subnets[0]
-  sgs          = [module.sg.sg_id]
+  subnets      = module.my_vpc.vpc_info.private_subnets
+  sgs          = [module.sg.sg_info.id]
 }

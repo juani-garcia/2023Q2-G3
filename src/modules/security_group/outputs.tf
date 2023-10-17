@@ -1,7 +1,7 @@
 output "sg_info" {
   description = "Information about the created security group"
   value = {
-    sg_id       = aws_security_group.sg.id
+    id          = aws_security_group.sg.id
     name        = aws_security_group.sg.name
     description = aws_security_group.sg.description
     vpc_id      = aws_security_group.sg.vpc_id

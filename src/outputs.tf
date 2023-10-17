@@ -22,3 +22,8 @@ output "my_lambda_functions" {
   description = "Information about the Lambda functions"
   value       = module.lambda_function.lambda_functions_arns
 }
+
+output "my_security_group_info" {
+  description = "Information about the created security group"
+  value       = module.sg.sg_info
+}

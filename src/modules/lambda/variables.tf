@@ -24,7 +24,7 @@ variable "lambda_names" {
 
 variable "subnets" {
   description = "ID of the subnet where the Lambda function will be deployed"
-  type        = string
+  type        = list(string)
 }
 
 variable "sgs" {
