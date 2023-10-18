@@ -52,3 +52,14 @@ module "lambda" {
   security_group_ids = [module.sg.id]
 
 }
+
+module "apigw" {
+  source   = "./modules/apigw"
+  for_each = local.lambdas
+
+  api_name             = "api-test"
+  lambda_function_name = module.lambda[each.key].function_name
+  lambda_invoke_arn    = module.lambda[each.key].invoke_arn
+
+  depends_on = [module.lambda]
+}
