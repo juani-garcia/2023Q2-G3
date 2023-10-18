@@ -1,5 +1,6 @@
-resource "aws_vpc" "my_vpc" {
-  cidr_block           = var.vpc_cidr
+resource "aws_vpc" "this" {
+  cidr_block = var.vpc_cidr
+
   enable_dns_support   = true
   enable_dns_hostnames = true
 
@@ -8,49 +9,28 @@ resource "aws_vpc" "my_vpc" {
   }
 }
 
-# resource "aws_subnet" "subnet" {
-#   count             = length(var.public_subnet_names)
-#   cidr_block        = cidrsubnet("${aws_vpc.my_vpc.cidr_block}", var.newbits, count.index)
-#   availability_zone = var.az
-#   vpc_id            = aws_vpc.my_vpc.id
-
-#   map_public_ip_on_launch = false
-
-#   tags = {
-#     Name = var.public_subnet_names[count.index]
-#   }
-# }
-
 module "public_subnet" {
   source = "../subnet"
+  count  = length(var.azs)
 
-  vpc_cidr                = aws_vpc.my_vpc.cidr_block
-  vpc_id                  = aws_vpc.my_vpc.id
-  az                      = var.az
+  vpc_cidr                = aws_vpc.this.cidr_block
+  vpc_id                  = aws_vpc.this.id
+  az                      = var.azs[count.index]
   newbits                 = var.newbits
-  starting_cidr           = 0
-  subnet_names            = var.public_subnet_names
+  starting_cidr           = count.index
+  subnet_name             = var.public_subnet_names[count.index]
   map_public_ip_on_launch = true
 }
 
 module "private_subnet" {
   source = "../subnet"
+  count  = length(var.azs)
 
-  vpc_cidr                = aws_vpc.my_vpc.cidr_block
-  vpc_id                  = aws_vpc.my_vpc.id
-  az                      = var.az
+  vpc_cidr                = aws_vpc.this.cidr_block
+  vpc_id                  = aws_vpc.this.id
+  az                      = var.azs[count.index]
   newbits                 = var.newbits
-  starting_cidr           = length(var.public_subnet_names)
-  subnet_names            = var.private_subnet_names
+  starting_cidr           = count.index + length(var.public_subnet_names)
+  subnet_name             = var.private_subnet_names[count.index]
   map_public_ip_on_launch = false
 }
-
-# resource "aws_subnet" "private_subnet_1" {
-#   vpc_id    = aws_vpc.my_vpc.id
-#   cidr_block = "${cidrsubnet(var.vpc_cidr, 8, 2)}"
-#   availability_zone = "us-east-1a"
-
-#   tags = {
-#     Name = "Private Subnet 1"
-#   }
-# }

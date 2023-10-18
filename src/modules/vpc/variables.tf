@@ -18,8 +18,8 @@ variable "private_subnet_names" {
   description = "List of subnet names"
 }
 
-variable "az" {
-  type        = string
+variable "azs" {
+  type        = list(string)
   description = "Availability Zone"
 }
 

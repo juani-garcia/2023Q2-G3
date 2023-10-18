@@ -19,9 +19,9 @@ variable "map_public_ip_on_launch" {
   default     = false
 }
 
-variable "subnet_names" {
-  type        = list(string)
-  description = "List of subnet names"
+variable "subnet_name" {
+  type        = string
+  description = "Name of the subnet"
 }
 
 variable "az" {

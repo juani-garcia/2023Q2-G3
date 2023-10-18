@@ -1,33 +1,34 @@
-# variable "lambda_function_name" {
-#   description = "The name of the Lambda function"
-#   type        = string
-#   default     = "lambda-function"
-# }
-
-# variable "lambda_handler" {
-#   description = "The name of the Lambda handler"
-#   type        = string
-#   default     = "lambda_handler"
-# }
-
-variable "sources" {
-  description = "The source code for the Lambda function"
-  type        = list(string)
-  default     = ["src/resources"]
+variable "filename" {
+  description = "The path to the function's deployment package within the local filesystem. If defined, The s3_* variables cannot be used."
+  type        = string
 }
 
-variable "lambda_names" {
-  description = "The name of the Lambda function"
-  type        = list(string)
-  default     = ["lambda-function"]
+variable "function_name" {
+  description = "A unique name for your Lambda Function."
+  type        = string
 }
 
-variable "subnets" {
-  description = "ID of the subnet where the Lambda function will be deployed"
+variable "role" {
+  description = "The IAM role attached to the Lambda Function."
+  type        = string
+}
+
+variable "handler" {
+  description = "The function entrypoint in your code."
+  type        = string
+}
+
+variable "runtime" {
+  description = "The identifier of the function's runtime."
+  type        = string
+}
+
+variable "subnet_ids" {
+  description = "A list of subnet IDs associated with the Lambda function."
   type        = list(string)
 }
 
-variable "sgs" {
-  description = "IDs of the security groups where the Lambda function will be deployed"
+variable "security_group_ids" {
+  description = "A list of security group IDs associated with the Lambda function."
   type        = list(string)
 }
