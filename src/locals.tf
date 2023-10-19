@@ -1,4 +1,6 @@
 locals {
+  website_bucket_name = "dine-out-website-bucket-juan1"
+
   lambdas = {
     "HelloWorld" = {
       function_name  = "AWSLambdaHelloWorldTest"
@@ -27,6 +29,17 @@ locals {
       }]
       hash_key  = "id"
       range_key = "Nombre"
+    }
+  }
+
+  htmls = {
+    "index" = {
+      file_name = "index.html"
+      mime      = "text/html"
+    }
+    "error" = {
+      file_name = "error.html"
+      mime      = "text/html"
     }
   }
 }
