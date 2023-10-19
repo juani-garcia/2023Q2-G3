@@ -1,5 +1,5 @@
 locals {
-  website_bucket_name = "dine-out-website-bucket"
+  website_bucket_name = "dine-out-website-bucket-juan1"
 
   lambdas = {
     "HelloWorld" = {
