@@ -1,4 +1,4 @@
-output "lambda_url" {
-  description = "URL for Lambda function."
-  value       = module.apigw
-}
+# output "lambda_url" {
+#   description = "URL for Lambda function."
+#   value       = module.apigw
+# }
