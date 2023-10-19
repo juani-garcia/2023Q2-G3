@@ -1,4 +1,4 @@
-# output "lambda_url" {
-#   description = "URL for Lambda function."
-#   value       = module.apigw
-# }
+output "url" {
+  description = "url of the bucket"
+  value       = module.s3.website_url
+}

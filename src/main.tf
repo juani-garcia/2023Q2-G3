@@ -66,6 +66,14 @@
 
 module "s3" {
   source      = "./modules/s3"
-  bucket_name = "bucket-test"
+  bucket_name = "bucket-test-itba-cloud"
   acl         = "public-read"
+}
+
+resource "aws_s3_object" "this" {
+  bucket = module.s3.id
+
+  key          = "index.html"
+  content      = file("${path.module}/resources/html/index.html")
+  content_type = "text/html"
 }
