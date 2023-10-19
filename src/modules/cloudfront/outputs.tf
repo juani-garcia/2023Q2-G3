@@ -1,4 +1,4 @@
 output "arn" {
-  description = "The ARN of the DynamoDB table"
-  value       = aws_dynamodb_table.this.arn
+  description = "ARN of the CloudFront distribution"
+  value       = aws_cloudfront_distribution.this.arn 
 }
