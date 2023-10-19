@@ -1,4 +1,3 @@
-output "invoke_url" {
-  description = "URL for Lambda function."
-  value       = aws_api_gateway_rest_api.this
+output "endpoint_url" {
+  value = "${aws_api_gateway_stage.this.invoke_url}/${var.endpoint_path}?name=Juan"
 }
