@@ -13,4 +13,20 @@ locals {
       source_arn     = "arn:aws:execute-api:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}"
     }
   }
+  databases = {
+    "Restaurant" = {
+      read_capacity  = 30
+      write_capacity = 30
+      billing_mode   = "PROVISIONED"
+      attributes = [{
+        name = "id"
+        type = "N"
+        }, {
+        name = "Nombre"
+        type = "S"
+      }]
+      hash_key  = "id"
+      range_key = "Nombre"
+    }
+  }
 }

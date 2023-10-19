@@ -35,3 +35,4 @@ override.tf.json
 terraform.rc
 src/terraform.tfstate.backup
 src/.terraform.lock.hcl
+src/terraform.tfstate.backup

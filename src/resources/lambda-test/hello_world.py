@@ -1,9 +1,6 @@
 import json
 
 def lambda_handler(event, context):
-    """
-    The Lambda handler function that gets invoked when the API endpoint is hit
-    """
     name = event['queryStringParameters']['name'] if 'name' in event['queryStringParameters'] else "" # TODO: if validation is not working as intended
     name = name if name != "" else "World" 
     res = "Hello " + name + "!"

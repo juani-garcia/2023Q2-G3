@@ -70,58 +70,44 @@ module "apigw" {
   depends_on = [module.lambda]
 }
 
-# module "apigw" {
-#   source = "terraform-aws-modules/apigateway-v2/aws"
-#   for_each = local.lambdas
+module "dynamo" {
+  source   = "./modules/dynamodb"
+  for_each = local.databases
 
-#   name          = "http-apigateway"
-#   protocol_type = "HTTP"
+  name           = each.key
+  read_capacity  = each.value.read_capacity
+  write_capacity = each.value.write_capacity
+  billing_mode   = each.value.billing_mode
+  attributes     = each.value.attributes
+  hash_key       = each.value.hash_key
+  range_key      = each.value.range_key
+  tags           = { name = each.key }
 
-#   cors_configuration = {
-#     allow_headers = ["content-type", "x-amz-date", "authorization", "x-api-key", "x-amz-security-token", "x-amz-user-agent"]
-#     allow_methods = ["*"]
-#     allow_origins = ["*"]
-#   }
+}
 
-#   # Custom domain
-#   domain_name                 = "terraform-aws-modules.modules.tf"
-#   domain_name_certificate_arn = ""
+module "cloudfront" {
+  source = "./modules/cloudfront"
 
-#   # # Access logs
-#   # default_stage_access_log_destination_arn = "arn:aws:logs:eu-west-1:835367859851:log-group:debug-apigateway"
-#   # default_stage_access_log_format          = "$context.identity.sourceIp - - [$context.requestTime] \"$context.httpMethod $context.routeKey $context.protocol\" $context.status $context.responseLength $context.requestId $context.integrationErrorMessage"
+  depends_on = [ module.apigw ]
 
-#   # Routes and integrations
-#   integrations = {
-#     "POST /" = {
-#       lambda_arn             = module.lambda[each.key].arn
-#       payload_format_version = "2.0"
-#       timeout_milliseconds   = 12000
-#     }
+  origins = {
+    api_gw = {
+      domain_name              = module.apigw.domain_name
+      http_port                = 80
+      https_port               = 443
+      origin_protocol_policy   = "https-only"
+      origin_ssl_protocols     = ["TLSv1.2"]
+    }
+  }
 
-#     # "GET /some-route-with-authorizer" = {
-#     #   integration_type = "HTTP_PROXY"
-#     #   integration_uri  = module.lambda[each.key].invoke_arn
-#     #   authorizer_key   = "aws"
-#     # }
-
-#     "$default" = {
-#       lambda_arn = module.lambda[each.key].arn
-#     }
-#   }
-
-#   authorizers = {
-#     # "azure" = {
-#     #   authorizer_type  = "JWT"
-#     #   identity_sources = "$request.header.Authorization"
-#     #   name             = "azure-auth"
-#     #   audience         = ["d6a38afd-45d6-4874-d1aa-3c5c558aqcc2"]
-#     #   issuer           = "https://sts.windows.net/aaee026e-8f37-410e-8869-72d9154873e4/"
-#     # }
-#   }
-
-#   tags = {
-#     Name = "http-apigateway"
-#   }
-
-# }
+  default_cache_behaviors = {
+    default = {
+      allowed_methods        = ["GET", "HEAD", "OPTIONS"]
+      cached_methods         = ["GET", "HEAD", "OPTIONS"]
+      target_origin_id       = module.apigw.id
+      viewer_protocol_policy = "allow-all"
+      query_string           = false
+      cookies_forward        = "none"
+    }
+  }
+}
