@@ -1,5 +1,6 @@
 locals {
-  website_bucket_name = "dine-out-website-bucket-juan1"
+  website_bucket_name = "dine-out-website-bucket-juan23"
+  # web_site_domain = var.web_site_domain
 
   lambdas = {
     "HelloWorld" = {

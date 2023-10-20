@@ -87,44 +87,11 @@ module "dynamo" {
 
 }
 
-# module "logs_bucket" {
-#   source = "terraform-aws-modules/s3-bucket/aws"
-
-#   bucket_prefix = "logs_"
-#   force_destroy = true
-
-#   attach_deny_unencrypted_object_uploads = true
-#   attach_deny_insecure_transport_policy  = true
-#   attach_require_latest_tls_policy       = true
-#   server_side_encryption_configuration = {
-#     rule = {
-#       apply_server_side_encryption_by_default = {
-#         sse_algorithm = "AES256"
-#       }
-#     }
-#   }
-
-# }
-
-# module "redirect_bucket" {
-#   source = "terraform-aws-modules/s3-bucket/aws"
-
-#   bucket_prefix = "www_"
-#   force_destroy = true
-
-#   website = {
-#     redirect_all_requests_to = {
-#       host_name = module.dine_out_website_bucket.s3_bucket_bucket_regional_domain_name
-#     }
-#   }
-# }
-
-# module "dine_out_website_bucket" {
+# module "site_bucket" {
 
 #   force_destroy = true
 #   source        = "terraform-aws-modules/s3-bucket/aws"
 #   bucket        = local.website_bucket_name
-#   bucket_prefix = "front_"
 
 #   server_side_encryption_configuration = {
 #     rule = {
@@ -140,8 +107,7 @@ module "dynamo" {
 #   }
 
 #   versioning = {
-#     status     = true
-#     mfa_delete = false
+#     status     = false
 #   }
 
 #   logging = {
@@ -150,25 +116,16 @@ module "dynamo" {
 #   }
 # }
 
-# resource "aws_s3_object" "website_data" {
-#   for_each = fileset("./resources/html", "*")
-
-#   bucket = module.dine_out_website_bucket.s3_bucket_id
-#   key    = each.value
-
-#   source       = "./resources/html/${each.value}"
-#   etag         = filemd5("./resources/html/${each.value}")
-#   content_type = "text/html"
-# }
-
 # module "cloudfront" {
 #   source = "./modules/cloudfront"
 
-#   depends_on = [ module.apigw, module.dine_out_website_bucket, aws_s3_object.website_data ] # TODO: Add dependency to s3 bucket
-
+#   depends_on = [ module.apigw, module.site_bucket, aws_s3_object.website_data ] # TODO: Add dependency to s3 bucket
+#   bucket_arn = module.site_bucket.s3_bucket_arn
+#   bucket_name = local.website_bucket_name
 #   origins = {
 #     s3 = {
-#       domain_name              = module.dine_out_website_bucket.s3_bucket_website_endpoint
+#       # domain_name              = module.site_bucket.s3_bucket_arn
+#       domain_name              = module.site_bucket.s3_bucket_website_endpoint
 #       http_port                = 80
 #       https_port               = 443
 #       origin_protocol_policy   = "match-viewer"
