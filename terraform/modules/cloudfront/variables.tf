@@ -12,11 +12,34 @@ variable "bucket_id" {
   type = string
 }
 
-
 variable "aliases" {
   description = "Aliases for the distribution"
   type = set(string)
   default = []
+}
+
+variable "origins" {
+  description = "A map of origins for this CloudFront distribution"
+  type        = map(object({
+    origin_id              = string
+    domain_name            = string
+    http_port              = number
+    https_port             = number
+    origin_protocol_policy = string
+    origin_ssl_protocols   = list(string)
+    s3_origin              = bool
+  }))
+  default = {
+    "default" = {
+      origin_id              = ""
+      domain_name            = ""
+      http_port              = 0
+      https_port             = 0
+      origin_protocol_policy = ""
+      origin_ssl_protocols   = []
+      s3_origin              = true
+    }
+  }
 }
 
 

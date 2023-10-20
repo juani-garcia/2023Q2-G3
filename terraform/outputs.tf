@@ -1,10 +1,4 @@
-# output "url" {
-#   description = "url of the bucket"
-#   value       = module.site_bucket.s3_bucket_website_endpoint
-# }
-
-output "lambda_url" {
-
+output "apigw_info" {
   description = "URL for Lambda function."
   value       = module.apigw
 }
@@ -14,7 +8,7 @@ output "dynamodb_name" {
   value       = module.dynamo
 }
 
-output "cloudfront_access" {
+output "cloudfront_domain_name" {
   description = "Cloudfront access."
-  value       = module.cloudfront
+  value       = module.cloudfront.domain_name
 }
