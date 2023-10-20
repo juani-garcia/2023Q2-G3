@@ -1,24 +1,29 @@
 resource "aws_cloudfront_distribution" "this" {
   enabled             = true
   default_root_object = "website/index.html"
-  
-  dynamic origin {
+
+  dynamic "origin" {
     for_each = var.origins
 
     content {
       domain_name = origin.value.domain_name
       origin_id   = origin.key
-      custom_origin_config {
-        http_port              = origin.value.http_port
-        https_port             = origin.value.https_port
-        origin_protocol_policy = origin.value.origin_protocol_policy
-        origin_ssl_protocols   = origin.value.origin_ssl_protocols
+
+      dynamic "custom_origin_config" {
+        for_each = length(lookup(origin.value, "custom_origin_config", "")) == 0 ? [] : [lookup(origin.value, "custom_origin_config", "")]
+
+        content {
+          http_port              = custom_origin_config.value.http_port
+          https_port             = custom_origin_config.value.https_port
+          origin_protocol_policy = custom_origin_config.value.origin_protocol_policy
+          origin_ssl_protocols   = custom_origin_config.value.origin_ssl_protocols
+        }
       }
     }
-    
+
   }
 
-  dynamic default_cache_behavior {
+  dynamic "default_cache_behavior" {
     for_each = var.default_cache_behaviors
 
     content {
@@ -41,8 +46,20 @@ resource "aws_cloudfront_distribution" "this" {
       restriction_type = "none"
     }
   }
-  
+
   viewer_certificate {
     cloudfront_default_certificate = true
   }
+
+
 }
+
+# resource "aws_cloudfront_origin_access_identity" "cloudfront_OAI" {
+#   comment = "OAI"
+# }
+
+# resource "aws_s3_bucket_policy" "OAI_policy" {
+#   # for_each = var.origins
+#   bucket = "s3"
+#   policy = data.aws_iam_policy_document.frontend_OAI_policy.json
+# }

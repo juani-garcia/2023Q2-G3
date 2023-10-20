@@ -1,8 +1,8 @@
-output "url" {
-  description = "url of the bucket"
-  value       = module.dine_out_website_bucket.s3_bucket_website_endpoint
-}
-    
+# output "url" {
+#   description = "url of the bucket"
+#   value       = module.dine_out_website_bucket.s3_bucket_website_endpoint
+# }
+
 output "lambda_url" {
 
   description = "URL for Lambda function."
@@ -14,7 +14,7 @@ output "dynamodb_name" {
   value       = module.dynamo
 }
 
-output "cloudfront_access" {
-  description = "Cloudfront access."
-  value       = module.cloudfront
-}
+# output "cloudfront_access" {
+#   description = "Cloudfront access."
+#   value       = module.cloudfront
+# }

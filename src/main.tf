@@ -57,6 +57,8 @@ module "apigw" {
   source   = "./modules/apigw"
   for_each = local.lambdas
 
+  depends_on = [module.lambda]
+
   api_name             = "api-test"
   lambda_function_name = each.value.function_name
   lambda_invoke_arn    = module.lambda[each.key].invoke_arn
@@ -67,7 +69,7 @@ module "apigw" {
   region               = data.aws_region.current.name
   account_id           = data.aws_caller_identity.current.account_id
 
-  depends_on = [module.lambda]
+
 }
 
 module "dynamo" {
@@ -85,77 +87,110 @@ module "dynamo" {
 
 }
 
-module "dine_out_website_bucket" {
+# module "logs_bucket" {
+#   source = "terraform-aws-modules/s3-bucket/aws"
 
-  force_destroy = true
-  source = "terraform-aws-modules/s3-bucket/aws"
-  bucket = local.website_bucket_name
+#   bucket_prefix = "logs_"
+#   force_destroy = true
 
-  # server_side_encryption_configuration = {
-  #   rule = {
-  #     apply_server_side_encryption_by_default = {
-  #       sse_algorithm = var.sse_algorithm
-  #     }
-  #   }
-  # }
+#   attach_deny_unencrypted_object_uploads = true
+#   attach_deny_insecure_transport_policy  = true
+#   attach_require_latest_tls_policy       = true
+#   server_side_encryption_configuration = {
+#     rule = {
+#       apply_server_side_encryption_by_default = {
+#         sse_algorithm = "AES256"
+#       }
+#     }
+#   }
 
-  website = {
-    index_document = "index.html"
-    error_document = "error.html"
-  }
+# }
 
-  versioning = {
-    status     = true
-    mfa_delete = false
-  }
+# module "redirect_bucket" {
+#   source = "terraform-aws-modules/s3-bucket/aws"
 
-  # logging = {
-  #   target_bucket = module.logs_bucket.s3_bucket_id
-  #   target_prefix = "logs/"
-  # }
-}
+#   bucket_prefix = "www_"
+#   force_destroy = true
 
-resource "aws_s3_object" "website_data" {
-  for_each = fileset("./resources/html", "*")
+#   website = {
+#     redirect_all_requests_to = {
+#       host_name = module.dine_out_website_bucket.s3_bucket_bucket_regional_domain_name
+#     }
+#   }
+# }
 
-  bucket = module.dine_out_website_bucket.s3_bucket_id
-  key    = each.value
+# module "dine_out_website_bucket" {
 
-  source       = "./resources/html/${each.value}"
-  etag         = filemd5("./resources/html/${each.value}")
-  content_type = "text/html"
-}
+#   force_destroy = true
+#   source        = "terraform-aws-modules/s3-bucket/aws"
+#   bucket        = local.website_bucket_name
+#   bucket_prefix = "front_"
 
-module "cloudfront" {
-  source = "./modules/cloudfront"
+#   server_side_encryption_configuration = {
+#     rule = {
+#       apply_server_side_encryption_by_default = {
+#         sse_algorithm = "AES256"
+#       }
+#     }
+#   }
 
-  depends_on = [ module.apigw, module.dine_out_website_bucket, aws_s3_object.website_data ] # TODO: Add dependency to s3 bucket
+#   website = {
+#     index_document = "index.html"
+#     error_document = "error.html"
+#   }
 
-  origins = {
-    s3 = {
-      domain_name              = module.dine_out_website_bucket.s3_bucket_website_endpoint
-      http_port                = 80
-      https_port               = 443
-      origin_protocol_policy   = "https-only"
-      origin_ssl_protocols     = ["TLSv1.2"]
-    },
-    api_gw = {
-      domain_name = replace(replace(module.apigw.api_endpoint, "https://", ""), "/", "")
-      http_port                = 80
-      https_port               = 443
-      origin_protocol_policy   = "https-only"
-      origin_ssl_protocols     = ["TLSv1.2"]
-    }
-  }
+#   versioning = {
+#     status     = true
+#     mfa_delete = false
+#   }
 
-  default_cache_behaviors = {
-    default = {
-      allowed_methods        = ["GET", "HEAD", "OPTIONS"]
-      cached_methods         = ["GET", "HEAD", "OPTIONS"]
-      target_origin_id       = module.dine_out_website_bucket.s3_bucket_id
-      viewer_protocol_policy = "allow-all"
-      query_string           = false
-      cookies_forward        = "none"
-    }
-  }
-}
+#   logging = {
+#     target_bucket = module.logs_bucket.s3_bucket_id
+#     target_prefix = "logs/"
+#   }
+# }
+
+# resource "aws_s3_object" "website_data" {
+#   for_each = fileset("./resources/html", "*")
+
+#   bucket = module.dine_out_website_bucket.s3_bucket_id
+#   key    = each.value
+
+#   source       = "./resources/html/${each.value}"
+#   etag         = filemd5("./resources/html/${each.value}")
+#   content_type = "text/html"
+# }
+
+# module "cloudfront" {
+#   source = "./modules/cloudfront"
+
+#   depends_on = [ module.apigw, module.dine_out_website_bucket, aws_s3_object.website_data ] # TODO: Add dependency to s3 bucket
+
+#   origins = {
+#     s3 = {
+#       domain_name              = module.dine_out_website_bucket.s3_bucket_website_endpoint
+#       http_port                = 80
+#       https_port               = 443
+#       origin_protocol_policy   = "match-viewer"
+#       origin_ssl_protocols     = ["TLSv1.2"]
+#     },
+#     api_gw = {
+#       domain_name = replace(replace(module.apigw["HelloWorld"].api_endpoint, "https://", ""), "/", "")
+#       http_port                = 80
+#       https_port               = 443
+#       origin_protocol_policy   = "match-viewer"
+#       origin_ssl_protocols     = ["TLSv1.2"]
+#     }
+#   }
+
+#   default_cache_behaviors = {
+#     default = {
+#       allowed_methods        = ["GET", "HEAD", "POST"]
+#       cached_methods         = ["GET", "HEAD"]
+#       target_origin_id       = "s3"
+#       viewer_protocol_policy = "allow-all"
+#       query_string           = false
+#       cookies_forward        = "none"
+#     }
+#   }
+# }
