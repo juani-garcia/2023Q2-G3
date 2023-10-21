@@ -1,26 +1,26 @@
 variable "domain_name" {
   description = "target domain name of the S3 bucket"
-  type = string
+  type        = string
 }
 
 variable "bucket_regional_domain_name" {
   description = "target domain name of the S3 bucket"
-  type = string
+  type        = string
 }
 variable "bucket_id" {
   description = "target domain name of the S3 bucket"
-  type = string
+  type        = string
 }
 
 variable "aliases" {
   description = "Aliases for the distribution"
-  type = set(string)
-  default = []
+  type        = set(string)
+  default     = []
 }
 
 variable "origins" {
   description = "A map of origins for this CloudFront distribution"
-  type        = map(object({
+  type = map(object({
     origin_id              = string
     domain_name            = string
     http_port              = number

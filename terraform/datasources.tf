@@ -23,3 +23,23 @@ data "aws_iam_policy_document" "bucket_policy_document" {
     }
   }
 }
+
+# data "aws_iam_policy_document" "bucket_policy_document" {
+#   statement {
+#     sid     = "PublicReadGetObject"
+#     effect  = "Allow"
+#     actions = ["s3:GetObject"]
+#     principals {
+#       type        = "AWS"
+#       identifiers = ["*"]
+#     }
+#     resources = ["${module.dineout_website_bucket.s3_bucket_arn}/*"]
+#   }
+# }
+
+# data "template_file" "userdata" {
+#   template = file("./resources/html/templates/index.html")
+#   vars = {
+#     ENDPOINT = "${module.apigw.api_endpoint}"
+#   }
+# }

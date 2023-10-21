@@ -1,10 +1,10 @@
 module "cloudfront" {
   source = "./modules/cloudfront"
 
-  domain_name        = module.dineout_website_bucket.s3_bucket_website_endpoint
+  domain_name                 = module.dineout_website_bucket.s3_bucket_website_endpoint
   bucket_regional_domain_name = module.dineout_website_bucket.s3_bucket_bucket_regional_domain_name
-  bucket_id          = module.dineout_website_bucket.s3_bucket_id
-  aliases            = ["www.${module.dineout_website_bucket.s3_bucket_website_endpoint}", module.dineout_website_bucket.s3_bucket_website_endpoint]
+  bucket_id                   = module.dineout_website_bucket.s3_bucket_id
+  aliases                     = ["www.${module.dineout_website_bucket.s3_bucket_website_endpoint}", module.dineout_website_bucket.s3_bucket_website_endpoint]
 
   origins = {
     "s3" = {

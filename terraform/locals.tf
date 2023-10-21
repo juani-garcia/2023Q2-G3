@@ -57,13 +57,15 @@ locals {
   }
 
   htmls = {
-    "index" = {
-      file_name = "index.html"
-      mime      = "text/html"
+    "index.html" = {
+      content      = templatefile("./resources/html/templates/index.html", { api_gateway_url = module.apigw.endpoint_url })
+      path         = "./resources/html/templates/index.html"
+      content_type = "text/html"
     }
-    "error" = {
-      file_name = "error.html"
-      mime      = "text/html"
+    "error.html" = {
+      content      = file("./resources/html/error.html")
+      path         = "./resources/html/error.html"
+      content_type = "text/html"
     }
   }
 }

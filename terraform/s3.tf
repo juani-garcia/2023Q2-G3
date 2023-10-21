@@ -2,7 +2,7 @@ module "dineout_website_bucket" {
   source = "terraform-aws-modules/s3-bucket/aws"
 
   force_destroy = true
-  bucket_prefix =  "front"
+  bucket_prefix = "front"
 
   attach_policy = true
   policy        = data.aws_iam_policy_document.bucket_policy_document.json
@@ -13,7 +13,7 @@ module "dineout_website_bucket" {
   restrict_public_buckets = true
 
   versioning = {
-    status     = false
+    status = false
   }
 
   website = {
@@ -32,12 +32,13 @@ module "dineout_website_bucket" {
 }
 
 resource "aws_s3_object" "website_data" {
-  for_each = fileset("./resources/html", "*")
+  for_each = local.htmls
 
   bucket = module.dineout_website_bucket.s3_bucket_id
-  key    = each.value
+  key    = each.key
 
-  source       = "./resources/html/${each.value}"
-  etag         = filemd5("./resources/html/${each.value}")
-  content_type = "text/html"
+  content = each.value.content
+  # source       = "./resources/html/${each.value}"
+  etag         = filemd5("${each.value.path}")
+  content_type = each.value.content_type
 }

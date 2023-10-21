@@ -45,10 +45,10 @@ variable "account_id" {
 
 variable "lambdas" {
   description = "The lambdas to be used in the API Gateway."
-  type        = map
+  type        = map(any)
 }
 
 variable "lambdas_info" {
   description = "The lambdas to be used in the API Gateway."
-  type        = map
+  type        = map(any)
 }

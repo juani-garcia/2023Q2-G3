@@ -15,14 +15,15 @@ resource "aws_cloudfront_distribution" "this" {
   # TODO: Chequear tema aliases y www
   # aliases             = var.aliases
 
-  dynamic origin {
+  dynamic "origin" {
     for_each = var.origins
 
     content {
       domain_name = origin.value.domain_name
       origin_id   = origin.value.origin_id
+      origin_path = origin.value.s3_origin ? "" : "/api"
 
-      dynamic s3_origin_config {
+      dynamic "s3_origin_config" {
         for_each = origin.value.s3_origin ? [true] : []
 
         content {
@@ -30,7 +31,7 @@ resource "aws_cloudfront_distribution" "this" {
         }
       }
 
-      dynamic custom_origin_config {
+      dynamic "custom_origin_config" {
         for_each = origin.value.s3_origin ? [] : [true]
 
         content {
@@ -41,50 +42,22 @@ resource "aws_cloudfront_distribution" "this" {
         }
       }
     }
-    
+
   }
 
   default_cache_behavior {
-    allowed_methods        = ["DELETE", "GET", "HEAD", "OPTIONS", "PATCH", "POST", "PUT"]
-    cached_methods         = ["GET", "HEAD"]
-    target_origin_id       = var.bucket_id
+    allowed_methods  = ["DELETE", "GET", "HEAD", "OPTIONS", "PATCH", "POST", "PUT"]
+    cached_methods   = ["GET", "HEAD"]
+    target_origin_id = var.bucket_id
     # cache_policy_id        = data.aws_cloudfront_cache_policy.optimized.id # Esto no se puede usar con forwarded rules. Sacarlo?
     viewer_protocol_policy = "redirect-to-https"
     forwarded_values {
-      headers      = []
-      query_string = true
+      query_string = false
       cookies {
-        forward = "all"
+        forward = "none"
       }
     }
   }
-
-  /*
-  # Si se usa www hay problemas de permisos, la policy dice que solo cloudfront lee pega a site
-  origin {
-    domain_name = var.bucket_regional_domain_name
-    origin_id   = var.bucket_id
-
-    s3_origin_config {
-      origin_access_identity = aws_cloudfront_origin_access_identity.oai.cloudfront_access_identity_path
-    }
-  }
-
-  default_cache_behavior {
-    allowed_methods        = ["DELETE", "GET", "HEAD", "OPTIONS", "PATCH", "POST", "PUT"]
-    cached_methods         = ["GET", "HEAD"]
-    target_origin_id       = var.bucket_id
-    cache_policy_id        = data.aws_cloudfront_cache_policy.optimized.id
-    viewer_protocol_policy = "redirect-to-https"
-    forwarded_values {
-      headers      = []
-      query_string = true
-      cookies {
-        forward = "all"
-      }
-    }
-  }
-  */
 
   restrictions {
     geo_restriction {
