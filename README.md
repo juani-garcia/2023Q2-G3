@@ -2,36 +2,46 @@
 Página de reservas para restaurantes.
 
 ## Módulos desarrollados
-Desarrollamos únicamente seis módulos, de los cuáles todos se entregan para corrección.
+Marcados con un asterisco se encuentran los módulos seleccionados para corrección
 
-### Cloudfront
+### Cloudfront (*)
 Funciona como CDN. También hace caché de los contenidos de la API y del frontend del S3.
 
-### API Gateway
+### API Gateway (*)
 Levanta una API REST que permite llamar a las funciones `lambda`. Se permiten los métodos `GET`y `POST`.
 
-### DynamoDB
+### DynamoDB (*)
 Crea la tabla `Restaurants` en Dynamo. La misma tiene los atributos `Name` de tipo `string` y `id` de tipo `number`.
 
-### Funciones Lambda
+### Funciones Lambda (*)
 Crea dos funciones lambda, que permiten escribir restaurantes nuevos y leer la lista de restaurantes de la tabla `Restaurants`.
 
-### VPC y subnets
+### VPC y subnets (*)
 Crea la VPC con su correspondiente CIDR y subredes para alojar a las funciones lambda.
 
-### S3 Buckets
+### S3 Buckets (*)
 Bucket para el frontend. [Módulo externo](https://registry.terraform.io/modules/terraform-aws-modules/s3-bucket/aws/latest/examples/complete).
 
+### Route tables
+Tablas de ruteo para las subredes
+
+### VPC Endpoint
+Endpoints para conectar a la VPC con DynamoDB.
+
 ## Meta-argumentos
+Se adjunta referencia a uno solo de los usos de los meta-argumentos.
 + for-each
 + depends-on
 + lifecycle
 
 ## Built-ins
-+ fileset
+Se adjunta referencia a uno solo de los usos de las funciones.
 + replace
 + sha1
 + jsonencode
+
+## Diagrama de la arquitectura
+Se adjunta un link al diagrama de la arquitectura.
 
 ## Rúbrica
 <table>
