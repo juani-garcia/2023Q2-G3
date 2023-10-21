@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>API Request Demo</title>
+</head>
+<body>
+    <h1>API Request Demo</h1>
+    
+    <label for="nameInput">Enter a name:</label>
+    <input type="text" id="nameInput" placeholder="Enter a name">
+    <button id="submitButton">Submit</button>
+    
+    <div id="resultContainer"></div>
+
+    <script>
+        const apiGatewayUrl = "${api_gateway_url}"; // Placeholder for API Gateway URL
+
+        document.getElementById("submitButton").addEventListener("click", function() {
+            // Get the user's input
+            const name = document.getElementById("nameInput").value;
+
+            // Construct the API URL with the user's input
+            const apiUrl = `${api_gateway_url}?name=` + name;
+
+            // Make an API request using the Fetch API
+            fetch(apiUrl, {
+                method: "GET", // Adjust the HTTP method as needed
+                headers: {
+                    "Access-Control-Allow-Origin": "*"//,
+                    //"Content-Type": "application/json", // Adjust the content type as needed
+                },
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Handle the API response and display it
+                const resultContainer = document.getElementById("resultContainer");
+                resultContainer.innerHTML = `API Response: $${JSON.stringify(data)}`;
+            })
+            .catch(error => {
+                // Handle any errors
+                console.error("Error:", error);
+            });
+        });
+    </script>
+</body>
+</html>
