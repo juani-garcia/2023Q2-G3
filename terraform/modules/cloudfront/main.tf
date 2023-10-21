@@ -42,7 +42,6 @@ resource "aws_cloudfront_distribution" "this" {
         }
       }
     }
-
   }
 
   default_cache_behavior {

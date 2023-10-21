@@ -12,3 +12,8 @@ output "cloudfront_domain_name" {
   description = "Cloudfront access."
   value       = module.cloudfront.domain_name
 }
+
+output "vpc_id" {
+  description = "Id of the VPC"
+  value       = module.vpc.id
+}
