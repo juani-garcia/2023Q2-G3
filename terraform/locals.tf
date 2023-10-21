@@ -9,9 +9,9 @@ locals {
       role           = data.aws_iam_role.lab_role.arn
       runtime        = "python3.9"
       create_package = false
-      filename       = "./resources/lambda-test/reader.zip"
+      filename       = "./resources/lambda-test/hello_world.zip"
       http_method    = "GET"
-      endpoint_path  = "restaurant"
+      endpoint_path  = "hello"
       source_arn     = "arn:aws:execute-api:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}"
     }
     # "Loader" = {

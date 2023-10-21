@@ -1,6 +1,6 @@
 output "endpoint_url" {
   description = "URL for API Gateway endpoint."
-  value       = "${aws_api_gateway_stage.this.invoke_url}/${var.endpoint_path}"
+  value       = "${aws_api_gateway_stage.this.invoke_url}/"
 }
 
 output "id" {
