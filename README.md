@@ -43,7 +43,7 @@ Se adjunta referencia a uno solo de los usos de las funciones.
 + [filemd5](https://github.com/juani-garcia/2023Q2-G3/blob/main/terraform/s3.tf)
 
 ## Diagrama de la arquitectura
-![Diagrama de la arquitectura](https://github.com/juani-garcia/2023Q2-G3/blob/main/terraform/docs/DineOut.png)
+![Diagrama de la arquitectura](https://github.com/juani-garcia/2023Q2-G3/blob/main/docs/DineOut.png)
 Es importante comentar que, por limitaciones de tiempo, no pudimos conectar correctamente las Lambda a DynamoDB para que la misma sea modificada por el usuario. A su vez, no se pudo habilitar correctamente la CORS policy para que Cloudfront se conecte con el API gateway.
 
 ## Rúbrica
