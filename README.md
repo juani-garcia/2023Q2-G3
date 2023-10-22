@@ -30,18 +30,21 @@ Endpoints para conectar a la VPC con DynamoDB.
 
 ## Meta-argumentos
 Se adjunta referencia a uno solo de los usos de los meta-argumentos.
-+ for-each
-+ depends-on
-+ lifecycle
++ [for-each](https://github.com/juani-garcia/2023Q2-G3/blob/main/terraform/modules/cloudfront/main.tf)
++ [depends-on](https://github.com/juani-garcia/2023Q2-G3/blob/main/terraform/lambda.tf)
++ [lifecycle](https://github.com/juani-garcia/2023Q2-G3/blob/main/terraform/modules/apigw/main.tf)
 
 ## Built-ins
 Se adjunta referencia a uno solo de los usos de las funciones.
-+ replace
-+ sha1
-+ jsonencode
++ [replace](https://github.com/juani-garcia/2023Q2-G3/blob/main/terraform/cloudfront.tf)
++ [sha1](https://github.com/juani-garcia/2023Q2-G3/blob/main/terraform/modules/apigw/main.tf)
++ [jsonencode](https://github.com/juani-garcia/2023Q2-G3/blob/main/terraform/modules/apigw/main.tf)
++ [file](https://github.com/juani-garcia/2023Q2-G3/blob/main/terraform/locals.tf)
++ [filemd5](https://github.com/juani-garcia/2023Q2-G3/blob/main/terraform/s3.tf)
 
 ## Diagrama de la arquitectura
 Se adjunta un link al diagrama de la arquitectura.
+Es importante comentar que por limitaciones de tiempo, no pudimos conectar correctamente las Lambda a DynamoDB para que la misma
 
 ## Rúbrica
 <table>
