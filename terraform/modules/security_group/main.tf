@@ -1,6 +1,3 @@
-# Taken from https://terrateam.io/blog/aws-lambda-function-with-terraform
-# TODO: implement this module
-
 resource "aws_security_group" "this" {
   vpc_id = var.vpc_id
 

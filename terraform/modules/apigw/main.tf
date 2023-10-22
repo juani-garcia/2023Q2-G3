@@ -57,7 +57,6 @@ resource "aws_api_gateway_integration" "options" {
     )
   }
 
-  # depends_on = [aws_api_gateway_method.options[each.key]]
 }
 
 resource "aws_lambda_permission" "this" {
@@ -142,16 +141,6 @@ resource "aws_api_gateway_deployment" "this" {
   triggers = {
     redeployment = sha1(jsonencode(aws_api_gateway_rest_api.this.body))
   }
-
-  # triggers = {
-  #   redeployment = sha1(jsonencode([
-  #     aws_api_gateway_resource.this[*],#.id,
-  #     aws_api_gateway_method.this[*],#.id,
-  #     aws_api_gateway_method.options[*],#.id,
-  #     aws_api_gateway_integration.integration[*],#.id,
-  #     aws_api_gateway_integration.options[*],#.id,
-  #   ]))
-  # }
 
   lifecycle {
     create_before_destroy = true

@@ -2,18 +2,11 @@ resource "aws_cloudfront_origin_access_identity" "oai" {
   comment = "OAI for ${var.domain_name}"
 }
 
-# data "aws_cloudfront_cache_policy" "optimized" {
-#   name = "Managed-CachingOptimized"
-# }
-
 resource "aws_cloudfront_distribution" "this" {
   enabled             = true
   comment             = "cdn"
   default_root_object = "index.html"
   price_class         = "PriceClass_100"
-
-  # TODO: Chequear tema aliases y www
-  # aliases             = var.aliases
 
   dynamic "origin" {
     for_each = var.origins
@@ -48,7 +41,6 @@ resource "aws_cloudfront_distribution" "this" {
     allowed_methods  = ["DELETE", "GET", "HEAD", "OPTIONS", "PATCH", "POST", "PUT"]
     cached_methods   = ["GET", "HEAD"]
     target_origin_id = var.bucket_id
-    # cache_policy_id        = data.aws_cloudfront_cache_policy.optimized.id # Esto no se puede usar con forwarded rules. Sacarlo?
     viewer_protocol_policy = "redirect-to-https"
     forwarded_values {
       query_string = false

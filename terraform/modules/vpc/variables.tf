@@ -27,10 +27,3 @@ variable "newbits" {
   type        = number
   description = "Number of bits to add to the VPC CIDR"
 }
-
-# variable "subnet_cidr_blocks" {
-#   type    = list(string)
-#   description = "List of subnet CIDR blocks"
-# }
-
-# Puedes agregar más variables según tus necesidades
