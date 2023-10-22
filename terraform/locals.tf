@@ -11,7 +11,7 @@ locals {
       create_package = false
       filename       = "./resources/lambda-test/loader.zip"
       http_method    = "POST"
-      endpoint_path  = "restaurant"
+      endpoint_path  = "load"
       source_arn     = "arn:aws:execute-api:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}"
     }
     "Reader" = {
@@ -23,7 +23,7 @@ locals {
       create_package = false
       filename       = "./resources/lambda-test/reader.zip"
       http_method    = "GET"
-      endpoint_path  = "restaurant"
+      endpoint_path  = "get"
       source_arn     = "arn:aws:execute-api:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}"
     }
   }

@@ -5,14 +5,14 @@ resource "aws_vpc_endpoint" "dynamo_vpc_endpoint" {
   route_table_ids   = [var.route_table]
   policy = jsonencode(
     {
-    "Statement": [
+      "Statement" : [
         {
-            "Effect": "Allow",
-            "Principal": "*",
-            "Action": "*",
-            "Resource": "*"
+          "Effect" : "Allow",
+          "Principal" : "*",
+          "Action" : "*",
+          "Resource" : "*"
         }
-    ]
-}
+      ]
+    }
   )
 }
