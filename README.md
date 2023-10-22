@@ -43,8 +43,8 @@ Se adjunta referencia a uno solo de los usos de las funciones.
 + [filemd5](https://github.com/juani-garcia/2023Q2-G3/blob/main/terraform/s3.tf)
 
 ## Diagrama de la arquitectura
-Se adjunta un link al diagrama de la arquitectura.
-Es importante comentar que por limitaciones de tiempo, no pudimos conectar correctamente las Lambda a DynamoDB para que la misma
+![Diagrama de la arquitectura](https://github.com/juani-garcia/2023Q2-G3/blob/main/terraform/docs/DineOut.png)
+Es importante comentar que, por limitaciones de tiempo, no pudimos conectar correctamente las Lambda a DynamoDB para que la misma. 
 
 ## Rúbrica
 <table>
