@@ -8,11 +8,6 @@ variable "subnet_ids" {
   type        = list(string)
 }
 
-variable "gateway_id" {
-  description = "ID of the Internet Gateway"
-  type        = string
-}
-
 variable "public" {
   description = "Whether the route table is public or not"
   type        = bool
