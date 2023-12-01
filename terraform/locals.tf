@@ -9,7 +9,7 @@ locals {
       role           = data.aws_iam_role.lab_role.arn
       runtime        = "python3.9"
       create_package = false
-      filename       = "./resources/lambda-test/table_loader.zip"
+      filename       = "./resources/lambdas/table_loader.zip"
       http_method    = "POST"
       endpoint_path  = "load"
       source_arn     = "arn:aws:execute-api:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}"
@@ -21,7 +21,7 @@ locals {
       role           = data.aws_iam_role.lab_role.arn
       runtime        = "python3.9"
       create_package = false
-      filename       = "./resources/lambda-test/table_reader.zip"
+      filename       = "./resources/lambdas/table_reader.zip"
       http_method    = "GET"
       endpoint_path  = "get"
       source_arn     = "arn:aws:execute-api:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}"
