@@ -38,3 +38,5 @@ terraform/terraform.tfstate.backup
 
 # Ignore .zip files
 *.zip
+
+*.DS_Store
