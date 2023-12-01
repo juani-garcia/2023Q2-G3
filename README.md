@@ -8,7 +8,7 @@ Marcados con un asterisco se encuentran los módulos seleccionados para correcci
 Funciona como CDN. También hace caché de los contenidos de la API y del frontend del S3.
 
 ### API Gateway (*)
-Levanta una API REST que permite llamar a las funciones `lambda`. Se permiten los métodos `GET`y `POST`.
+Levanta una API REST que permite llamar a las funciones `lambda`. Se permiten los métodos `GET`, `POST` y `OPTIONS`.
 
 ### DynamoDB (*)
 Crea la tabla `Restaurants` en Dynamo. La misma tiene los atributos `Name` de tipo `string` y `id` de tipo `number`.
@@ -43,8 +43,8 @@ Se adjunta referencia a uno solo de los usos de las funciones.
 + [filemd5](https://github.com/juani-garcia/2023Q2-G3/blob/main/terraform/s3.tf)
 
 ## Diagrama de la arquitectura
-![Diagrama de la arquitectura](https://github.com/juani-garcia/2023Q2-G3/blob/main/terraform/docs/DineOut.png)
-Es importante comentar que, por limitaciones de tiempo, no pudimos conectar correctamente las Lambda a DynamoDB para que la misma. 
+![Diagrama de la arquitectura](https://github.com/juani-garcia/2023Q2-G3/blob/main/docs/DineOut.png)
+Es importante comentar que, por limitaciones de tiempo, no pudimos conectar correctamente las Lambda a DynamoDB para que la misma sea modificada por el usuario. A su vez, no se pudo habilitar correctamente la CORS policy para que Cloudfront se conecte con el API gateway.
 
 ## Rúbrica
 <table>
