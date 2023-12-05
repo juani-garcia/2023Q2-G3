@@ -1,22 +1,24 @@
 import json
 import boto3
-
-dynamodb = boto3.resource('dynamodb')
-table = dynamodb.Table('Restaurants')
-
+client = boto3.client('dynamodb')
 def lambda_handler(event, context):
-    data = json.loads(event['body'])
-    id = data['id']
-    nombre = data['Nombre']
     
-    response = table.put_item(
+    id_value = event['body']['id']['N']
+    nombre_value = event['body']['Nombre']['S']
+    
+    PutItem = client.put_item(
+        TableName='Restaurant',
         Item={
-            'id': id,
-            'Nombre': nombre
+            'id': {
+              'N': id_value
+            },
+            'Nombre': {
+              'S': nombre_value
+            }
         }
-    )
-    
-    return {
-        'statusCode': 200,
-        'body': json.dumps('Data added to DynamoDB successfully')
+      )
+    response = {
+      'statusCode': 200,
+      'body': json.dumps('Data added to DynamoDB successfully')
     }
+    return response
