@@ -1,16 +1,20 @@
 import json
 import boto3
+import uuid
+
+# Generar un UUIDv4 para el ID del restaurante
+id_restaurante = str(uuid.uuid4())
+
 client = boto3.client('dynamodb')
 def lambda_handler(event, context):
     
-    id_value = event['body']['id']['N']
-    nombre_value = event['body']['Nombre']['S']
+    nombre_value = event['body']['Nombre']
     
     PutItem = client.put_item(
         TableName='Restaurant',
         Item={
             'id': {
-              'N': id_value
+              'S': id_restaurante
             },
             'Nombre': {
               'S': nombre_value

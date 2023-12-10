@@ -34,7 +34,7 @@ locals {
       billing_mode   = "PROVISIONED"
       attributes = [{
         name = "id"
-        type = "N"
+        type = "S"
         }, {
         name = "Nombre"
         type = "S"
