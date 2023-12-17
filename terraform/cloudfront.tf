@@ -18,7 +18,7 @@ module "cloudfront" {
     },
     "apigw" = {
       origin_id              = module.apigw.id
-      domain_name            = replace(replace(module.apigw.endpoint_url, "https://", ""), "/", "")
+      domain_name            = replace(replace(module.apigw.endpoint_url, "https://", ""), "/prod", "")
       http_port              = 80
       https_port             = 443
       origin_protocol_policy = "https-only"
