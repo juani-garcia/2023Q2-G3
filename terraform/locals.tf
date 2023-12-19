@@ -11,7 +11,7 @@ locals {
       create_package = false
       filename       = "./resources/lambdas/hello_world.zip"
       http_method    = "GET"
-      endpoint_path  = "get"
+      endpoint_path  = "greeting"
       source_arn     = "arn:aws:execute-api:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}"
     }
     # "Loader" = {
@@ -58,7 +58,7 @@ locals {
 
   htmls = {
     "index.html" = {
-      content      = templatefile("./resources/html/templates/index.html", { api_gateway_url = "${module.apigw.endpoint_url}/get" })
+      content      = templatefile("./resources/html/templates/index.html", { api_gateway_url = "${module.apigw.endpoint_url}/greeting" })
       path         = "./resources/html/templates/index.html"
       content_type = "text/html"
     }

@@ -14,7 +14,7 @@ resource "aws_cloudfront_distribution" "this" {
     content {
       domain_name = origin.value.domain_name
       origin_id   = origin.value.origin_id
-      origin_path = origin.value.s3_origin ? "" : "/api"
+      # origin_path = origin.value.s3_origin ? "" : "/api"
 
       dynamic "s3_origin_config" {
         for_each = origin.value.s3_origin ? [true] : []
