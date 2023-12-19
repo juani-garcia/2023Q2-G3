@@ -14,6 +14,42 @@ locals {
       endpoint_path  = "greeting"
       source_arn     = "arn:aws:execute-api:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}"
     }
+    "Loader" = {
+      function_name  = "AWSLambdaRestaurantLoader"
+      description    = "Lambda function to create a new Restaurant"
+      handler        = "table_loader.lambda_handler"
+      role           = data.aws_iam_role.lab_role.arn
+      runtime        = "python3.9"
+      create_package = false
+      filename       = "./resources/lambdas/table_loader.zip"
+      http_method    = "POST"
+      endpoint_path  = "restaurants"
+      source_arn     = "arn:aws:execute-api:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}"
+    }
+    "Reader" = {
+      function_name  = "AWSLambdaRestaurantGetter"
+      description    = "Lambda function to get Restaurant list"
+      handler        = "hello_world.lambda_handler"
+      role           = data.aws_iam_role.lab_role.arn
+      runtime        = "python3.9"
+      create_package = false
+      filename       = "./resources/lambdas/hello_world.zip"
+      http_method    = "GET"
+      endpoint_path  = "restaurants"
+      source_arn     = "arn:aws:execute-api:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}"
+    }
+    "LoaderU" = {
+      function_name  = "AWSLambdaUserLoader"
+      description    = "Lambda function to create a new User"
+      handler        = "user_loader.lambda_handler"
+      role           = data.aws_iam_role.lab_role.arn
+      runtime        = "python3.9"
+      create_package = false
+      filename       = "./resources/lambdas/user_loader.zip"
+      http_method    = "POST"
+      endpoint_path  = "users"
+      source_arn     = "arn:aws:execute-api:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}"
+    }
     # "Loader" = {
     #   function_name  = "AWSLambdaRestaurantLoader"
     #   description    = "Lambda function to create a new Restaurant"
@@ -46,7 +82,21 @@ locals {
       billing_mode   = "PROVISIONED"
       attributes = [{
         name = "id"
-        type = "N"
+        type = "S"
+        }, {
+        name = "Nombre"
+        type = "S"
+      }]
+      hash_key  = "id"
+      range_key = "Nombre"
+    }
+    "User" = {
+      read_capacity  = 30
+      write_capacity = 30
+      billing_mode   = "PROVISIONED"
+      attributes = [{
+        name = "id"
+        type = "S"
         }, {
         name = "Nombre"
         type = "S"
