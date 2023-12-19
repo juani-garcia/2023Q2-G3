@@ -10,6 +10,7 @@ def lambda_handler(event, context):
     
     nombre_value = event['body']['Nombre']
     email_value = event['body']['Email']
+    capacidad_value = event['body']['Capacidad']
     
     PutItem = client.put_item(
         TableName='Restaurant',
@@ -22,6 +23,9 @@ def lambda_handler(event, context):
             },
             'Email': {
               'S': email_value
+            },
+            'Capacidad': {
+              'N': capacidad_value
             }
         }
       )

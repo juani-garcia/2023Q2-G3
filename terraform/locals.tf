@@ -11,7 +11,7 @@ locals {
       create_package = false
       filename       = "./resources/lambdas/table_loader.zip"
       http_method    = "POST"
-      endpoint_path  = "load"
+      endpoint_path  = "restaurants"
       source_arn     = "arn:aws:execute-api:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}"
     }
     "Reader" = {
@@ -23,7 +23,7 @@ locals {
       create_package = false
       filename       = "./resources/lambdas/table_reader.zip"
       http_method    = "GET"
-      endpoint_path  = "get"
+      endpoint_path  = "restaurants"
       source_arn     = "arn:aws:execute-api:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}"
     }
     "LoaderU" = {
@@ -35,7 +35,7 @@ locals {
       create_package = false
       filename       = "./resources/lambdas/user_loader.zip"
       http_method    = "POST"
-      endpoint_path  = "load"
+      endpoint_path  = "users"
       source_arn     = "arn:aws:execute-api:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}"
     }
   }
