@@ -3,7 +3,7 @@ import boto3
 import uuid
 
 # Generar un UUIDv4 para el ID del restaurante
-id_restaurante = str(uuid.uuid4())
+id_user = str(uuid.uuid4())
 
 client = boto3.client('dynamodb')
 def lambda_handler(event, context):
@@ -12,10 +12,10 @@ def lambda_handler(event, context):
     email_value = event['body']['Email']
     
     PutItem = client.put_item(
-        TableName='Restaurant',
+        TableName='User',
         Item={
             'id': {
-              'S': id_restaurante
+              'S': id_user
             },
             'Nombre': {
               'S': nombre_value
